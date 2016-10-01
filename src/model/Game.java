@@ -5,38 +5,70 @@ import java.util.Observable;
 public class Game extends Observable{
 	Game(){
 		map = new Map(MAP_WIDTH, MAP_HEIGHT);
-		placeWumpus();
-		placeHunter();
+		hunter = map.getHunter();
+		wumpus = map.getWumpus();
+		stat = Status.Running;
+		setChanged();
+		notifyObservers();
 	}
 	
 	Game(Map m){
 		map = m;
-		placeWumpus();
-		placeHunter();
+		hunter = map.getHunter();
+		wumpus = map.getWumpus();
+		stat = Status.Running;
+		setChanged();
+		notifyObservers();
+	}
+
+	public void perform(Action act, Direction dir){
+		switch(act){
+			case Move:
+				hunter.move(dir);
+				break;
+			case Shoot:
+				hunter.shoot(dir);
+				break;
+		}
+
+		updateEntities();
+		updateStatus();
+		setChanged();
+		notifyObservers();
+	}
+
+	public Status getStatus(){
+		return stat;
 	}
 	
-	// Handle input in the GUI class
-	// Don't forget to set room to visited when player visits it
-	// move/shoot do that then update entities then check if one of them is dead
-	// Get status (DEATH_PIT ...
 	private void updateEntities(){
 		for(Entity e : map.getEntities())
 			e.update();
 	}
-	
-	private static void placeWumpus(){
-		int row = Math.random();
-		int col = -1;
-		while(map.getRoomAt(row, col))
+
+	private void updateStatus(){
+		if(wumpus.isDead()){
+			stat = Status.Success;
+		}else if(hunter.isDead()){
+			if(wumpus.getRow() == hunter.getRow() && wumpus.getCol() == hunter.getCol())
+				stat = Status.DeathByWumpus;
+			else if(map.getRoomAt(hunter.getRow(), hunter.getCol()).type == RoomType.Pit)
+				stat = Status.DeathByPit;
+			else
+				stat = Status.DeathByArrow;
+		}
 	}
-	
-	private static void placeHunter(){
-		
-	}
-	
-	private static final int MAP_HEIGHT = 10;
-	private static final int MAP_WIDTH = 10;
+
 	private Map map;
 	private Hunter hunter;
 	private Wumpus wumpus;
+	private Status stat;
+
+	private static final int MAP_HEIGHT = 10;
+	private static final int MAP_WIDTH = 10;
 }
+
+	// Handle input in the GUI class
+	// Don't forget to set room to visited when player visits it
+	// move/shoot do that then update entities then check if one of them is dead
+	// Get status (DEATH_PIT ...
