@@ -8,6 +8,7 @@ import javax.swing.*;
 import model.Direction;
 import model.Game;
 import model.GameAction;
+import view.GraphicalView;
 import view.TextualView;
 
 public class HuntTheWumpusGUI extends JFrame implements KeyListener{
@@ -19,8 +20,11 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 	public HuntTheWumpusGUI(){
 		g = new Game();
 		tv = new TextualView();
+		gv = new GraphicalView();
 		g.addObserver(tv);
+		g.addObserver(gv);
 		tv.update(g, null);
+		gv.update(g, gv);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WIDTH, HEIGHT);
@@ -28,6 +32,7 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 
 		JTabbedPane pane = new JTabbedPane();
 		pane.addTab("Textual View", tv);
+		pane.addTab("Graphical View", gv);
 		this.add(pane);
 		pane.addKeyListener(this);
 		pane.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("LEFT"), "none");
@@ -40,6 +45,8 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 		
 		if(arg0.getKeyCode() == KeyEvent.VK_S){
 			isShooting = true;
+			tv.setUserText("Shoot where?");
+			gv.setUserText("Shoot where?");
 			return;
 		}else{
 			switch(arg0.getKeyCode()){
@@ -82,8 +89,9 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 	
 	private Game g;
 	private TextualView tv;
+	private GraphicalView gv;
 	static boolean isShooting = false;
-	private static final int WIDTH = 535;
+	private static final int WIDTH = 514;
 	private static final int HEIGHT = 575;
 
 }

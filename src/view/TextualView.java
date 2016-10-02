@@ -25,27 +25,6 @@ import model.Status;
 public class TextualView extends JPanel implements Observer {
 	public TextualView(){
 		super();
-  	//this.setBackground(0x002B36);
-  	//setFont(new Font("Courier", Font.BOLD, 18));
-  	//setRows(rows);
-  	//setColumns(cols);
-		/*
-		StyleContext context = new StyleContext();
-		StyledDocument document = new DefaultStyledDocument(context);
-		
-		style = context.getStyle(StyleContext.DEFAULT_STYLE);
-		StyleConstants.setBackground(style,  Color.decode("#002B36"));	
-		StyleConstants.setFontFamily(style, "Monospace");
-		StyleConstants.setFontSize(style, 42);
-		*/
-		/*
-    try {
-      document.insertString(document.getLength(), "", style);
-    } catch (BadLocationException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-*/
 		this.setLayout(new BorderLayout());
 		textPane = new JTextPane();
 		textPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 28));
@@ -96,30 +75,18 @@ public class TextualView extends JPanel implements Observer {
 			}
 			break;
 		}
-		//g.getMap().getRoomAt(row, col);
-		/*
-		try {
-			textPane.getDocument().remove(0, textPane.getDocument().getLength());
-		} catch (BadLocationException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		*/
-		
 
 		StyleContext context = new StyleContext();
 		StyledDocument document = new DefaultStyledDocument(context);
 		
 		style = context.getStyle(StyleContext.DEFAULT_STYLE);
 		StyleConstants.setBackground(style,  Color.decode("#002B36"));	
-		//StyleConstants.setFontFamily(style, "Monospace");
-		//StyleConstants.setFontSize(style, 32);
-		
+
 		// Draw Rooms
 		for(int row = 0; row < m.getHeight(); ++row){
 			String curRow;
 			int col;
-			for(col = 0; col < m.getWidth() * 2; ++col){
+			for(col = 0; col < m.getWidth() * 2 - 1; ++col){
 				if(col % 2 == 1){
 					try {
 						document.insertString(document.getLength(), " ", style);
@@ -156,10 +123,8 @@ public class TextualView extends JPanel implements Observer {
 					
 					StyleConstants.setForeground(style, Color.decode(charColor));
 					try {
-						//document.insertString(row * m.getWidth() + col + 1, curRoom, style);
 						document.insertString(document.getLength(), curRoom, style);
 					} catch (BadLocationException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -174,21 +139,18 @@ public class TextualView extends JPanel implements Observer {
 			}
 		}
 		
-		// Draw Entities
 		for(Entity e : m.getEntities()){
 			// We don't want to draw entities that are in the rooms the Hunter hasn't visited yet
-			//if(!m.getRoomAt(e.getRow(), e.getCol()).visited)
-				//continue;
+			if(!m.getRoomAt(e.getRow(), e.getCol()).visited)
+				continue;
 			// We don't want to draw the arrow
 			if(e.getClass().getSimpleName().equals("Arrow"))
 				continue;
 			
-			//int pos = e.getCol() * (m.getWidth() + 1) + e.getRow();
-			int pos = e.getRow() * (m.getWidth() * 2 + 1) + e.getCol() * 2;
+			int pos = e.getRow() * (m.getWidth() * 2) + e.getCol() * 2;
 			try {
 				document.remove(pos, 1);
 			} catch (BadLocationException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			String eStr = null;
@@ -208,12 +170,16 @@ public class TextualView extends JPanel implements Observer {
 			try {
 				document.insertString(pos, eStr, style);
 			} catch (BadLocationException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
 		textPane.setDocument(document);
 	}
+	
+	public void setUserText(String text){
+		label.setText(text);
+	}
+	
 	
 	private JTextPane textPane;
 	private JLabel label;
