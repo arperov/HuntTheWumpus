@@ -9,7 +9,7 @@ public class Game extends Observable{
 		wumpus = map.getWumpus();
 		stat = Status.Running;
 		//REMOVEME
-		map.setAllRooms(true);
+		//map.setAllRooms(true);
 	}
 	
 	public Game(Map m){
@@ -21,7 +21,7 @@ public class Game extends Observable{
 
 	public void perform(GameAction act, Direction dir){
 		//FIXME
-		//if(stat == Status.Running){
+		if(stat == Status.Running){
 			switch(act){
 				case Move:
 					hunter.move(dir);
@@ -30,7 +30,7 @@ public class Game extends Observable{
 					hunter.shoot(dir);
 					break;
 			}
-		//}
+		}
 		updateEntities();
 		updateStatus();
 		setChanged();

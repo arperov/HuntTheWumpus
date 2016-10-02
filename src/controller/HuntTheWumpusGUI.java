@@ -20,6 +20,7 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 		g = new Game();
 		tv = new TextualView();
 		g.addObserver(tv);
+		tv.update(g, null);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(WIDTH, HEIGHT);
@@ -82,7 +83,7 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 	private Game g;
 	private TextualView tv;
 	static boolean isShooting = false;
-	private static final int WIDTH = 600;
-	private static final int HEIGHT = 800;
+	private static final int WIDTH = 535;
+	private static final int HEIGHT = 575;
 
 }

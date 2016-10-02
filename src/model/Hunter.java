@@ -14,7 +14,7 @@ public class Hunter extends Entity {
 	}
 	
 	public void shoot(Direction dir){
-		map.getEntities().add(new Arrow(row, col, dir));
+		map.addEntity(new Arrow(row, col, dir));
 	}
 
 	@Override

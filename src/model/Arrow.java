@@ -9,13 +9,14 @@ public class Arrow extends Entity{
 	@Override
 	public void update() {
 		for(;;){
-			row = map.normalizeRow(row += Direction.getRowOffset(dir));
+			row = map.normalizeRow(
+					row += 
+					Direction.getRowOffset(dir));
 			col = map.normalizeCol(col += Direction.getColOffset(dir));
 			
 			for(Entity e : map.getEntities()){
 				if(e != this && e.getRow() == row && e.getCol() == col){
 					e.kill();
-					map.getEntities().remove(this);
 					return;
 				}
 			}

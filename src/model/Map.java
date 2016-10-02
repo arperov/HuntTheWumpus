@@ -124,6 +124,7 @@ public class Map {
 			col = (int)(Math.random() * getWidth());
 		}while(getRoomAt(row, col).type != RoomType.Empty);
 		addEntity(new Hunter(row, col));
+		roomGrid[row][col].visited = true;
 	}
 
 	private void placePits(){
@@ -135,7 +136,8 @@ public class Map {
 				row = (int)(Math.random() * getHeight());
 				col = (int)(Math.random() * getWidth());
 			}while(getRoomAt(row, col).type == RoomType.Pit ||
-						 getRoomAt(row, col).type == RoomType.Blood);
+						 getRoomAt(row, col).type == RoomType.Blood ||
+						 getRoomAt(row, col).type == RoomType.Slime);
 			setRoom(row, col, RoomType.Pit);
 
 			// Place slime around the pit
