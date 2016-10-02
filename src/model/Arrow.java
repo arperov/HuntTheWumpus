@@ -9,10 +9,8 @@ public class Arrow extends Entity{
 	@Override
 	public void update() {
 		for(;;){
-			row += Direction.getRowOffset(dir);
-			col += Direction.getColOffset(dir);
-			row %= map.getHeight();
-			col %= map.getWidth();
+			row = map.normalizeRow(row += Direction.getRowOffset(dir));
+			col = map.normalizeCol(col += Direction.getColOffset(dir));
 			
 			for(Entity e : map.getEntities()){
 				if(e != this && e.getRow() == row && e.getCol() == col){

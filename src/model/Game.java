@@ -3,34 +3,34 @@ package model;
 import java.util.Observable;
 
 public class Game extends Observable{
-	Game(){
+	public Game(){
 		map = new Map(MAP_WIDTH, MAP_HEIGHT);
 		hunter = map.getHunter();
 		wumpus = map.getWumpus();
 		stat = Status.Running;
-		setChanged();
-		notifyObservers();
+		//REMOVEME
+		map.setAllRooms(true);
 	}
 	
-	Game(Map m){
+	public Game(Map m){
 		map = m;
 		hunter = map.getHunter();
 		wumpus = map.getWumpus();
 		stat = Status.Running;
-		setChanged();
-		notifyObservers();
 	}
 
-	public void perform(Action act, Direction dir){
-		switch(act){
-			case Move:
-				hunter.move(dir);
-				break;
-			case Shoot:
-				hunter.shoot(dir);
-				break;
-		}
-
+	public void perform(GameAction act, Direction dir){
+		//FIXME
+		//if(stat == Status.Running){
+			switch(act){
+				case Move:
+					hunter.move(dir);
+					break;
+				case Shoot:
+					hunter.shoot(dir);
+					break;
+			}
+		//}
 		updateEntities();
 		updateStatus();
 		setChanged();
@@ -39,6 +39,10 @@ public class Game extends Observable{
 
 	public Status getStatus(){
 		return stat;
+	}
+	
+	public Map getMap(){
+		return map;
 	}
 	
 	private void updateEntities(){
@@ -64,8 +68,8 @@ public class Game extends Observable{
 	private Wumpus wumpus;
 	private Status stat;
 
-	private static final int MAP_HEIGHT = 10;
-	private static final int MAP_WIDTH = 10;
+	private static final int MAP_HEIGHT = 15;
+	private static final int MAP_WIDTH = 15;
 }
 
 	// Handle input in the GUI class

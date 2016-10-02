@@ -7,10 +7,10 @@ public class Hunter extends Entity {
 	}
 	
 	public void move(Direction dir){
-		row += Direction.getRowOffset(dir);
-		col += Direction.getColOffset(dir);
-		row %= map.getHeight();
-		col %= map.getWidth();
+		row = map.normalizeRow(row + Direction.getRowOffset(dir));
+		col = map.normalizeCol(col + Direction.getColOffset(dir));
+
+		map.getRoomAt(row,  col).visited = true;
 	}
 	
 	public void shoot(Direction dir){

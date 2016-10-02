@@ -11,8 +11,8 @@ public abstract class Entity {
 		this.map = map;
 	}
 	
-	public boolean isAlive(){
-		return isAlive;
+	public boolean isDead(){
+		return !isAlive;
 	}
 	
 	public void kill(){

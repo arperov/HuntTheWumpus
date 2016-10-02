@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Map {
 	Map(int width, int height){
 		roomGrid = new Room[height][width];
+		entities = new ArrayList<Entity>();
 		generate();
 	}
 	
 	Map(String[] grid){
+		entities = new ArrayList<Entity>();
 		roomGrid = new Room[grid.length][grid[0].length()];
 		for(int j = 0; j < roomGrid.length; ++j){
 			for(int k = 0; k < roomGrid[0].length; ++k){
@@ -45,16 +47,16 @@ public class Map {
 
 	public Wumpus getWumpus(){
 		for(Entity e : entities){
-			if(e.getSimpleName().equals(Wumpus.getSimpleName()))
-				return e;
+			if(e.getClass().getSimpleName().equals(Wumpus.class.getSimpleName()))
+				return (Wumpus)e;
 		}
 		return null;
 	}
 
 	public Hunter getHunter(){
 		for(Entity e : entities){
-			if(e.getSimpleName().equals(Hunter.getSimpleName()))
-				return e;
+			if(e.getClass().getSimpleName().equals(Hunter.class.getSimpleName()))
+				return (Hunter)e;
 		}
 		return null;
 	}
@@ -68,7 +70,28 @@ public class Map {
 		return entities;
 	}
 	
+	public int normalizeRow(int r){
+		return (r % getHeight() + getHeight()) % getHeight();
+	}
+	
+	public int normalizeCol(int c){
+		return (c % getWidth() + getWidth()) % getWidth();
+	}
+	
+	public void setAllRooms(boolean b){
+		for(int j = 0; j < getHeight(); ++j){
+			for(int k = 0; k < getWidth(); ++k){
+				roomGrid[j][k].visited = b;
+			}
+		}
+	}
+	
 	private void generate(){
+		for(int j = 0; j < getHeight(); ++j){
+			for(int k = 0; k < getWidth(); ++k){
+				roomGrid[j][k] = new Room(RoomType.Empty, false);
+			}
+		}
 		placeWumpus();
 		placePits();
 		placeHunter();
@@ -85,10 +108,10 @@ public class Map {
 
 		// Place blood around the Wumpus
 		final int dSize = 5;
-		for(int j = -(dSize - 1) / 2; j >= (dSize - 1) / 2; ++j){
+		for(int j = -(dSize - 1) / 2; j <= (dSize - 1) / 2; ++j){
 			int jval = Math.abs(j);
 			for(int k = jval; k < jval + (dSize - (2 * jval)); ++k){
-				setRoom(row + j, col + k, RoomType.Blood);
+				setRoom(row + j, col + k - (dSize - 1) / 2, RoomType.Blood);
 			}
 		}
 	}
@@ -100,6 +123,7 @@ public class Map {
 			row = (int)(Math.random() * getHeight());
 			col = (int)(Math.random() * getWidth());
 		}while(getRoomAt(row, col).type != RoomType.Empty);
+		addEntity(new Hunter(row, col));
 	}
 
 	private void placePits(){
@@ -115,21 +139,22 @@ public class Map {
 			setRoom(row, col, RoomType.Pit);
 
 			// Place slime around the pit
-			final int dSize = 5;
-			for(int j = -(dSize - 1) / 2; j >= (dSize - 1) / 2; ++j){
+			final int dSize = 3;
+			for(int j = -(dSize - 1) / 2; j <= (dSize - 1) / 2; ++j){
 				int jval = Math.abs(j);
 				for(int k = jval; k < jval + (dSize - (2 * jval)); ++k){
-					if(getRoomAt(row + j, col + k).type == RoomType.Blood)
-						setRoom(row + j, col + k, RoomType.Goop);
-					else
-						setRoom(row + j, col + k, RoomType.Slime);
+					if(getRoomAt(normalizeRow(row + j), normalizeCol(col + k - (dSize - 1) / 2)).type == RoomType.Blood ||
+						 getRoomAt(normalizeRow(row + j), normalizeCol(col + k - (dSize - 1) / 2)).type == RoomType.Goop)
+						setRoom(row + j, col + k - (dSize - 1) / 2, RoomType.Goop);
+					else if(getRoomAt(normalizeRow(row + j), normalizeCol(col + k - (dSize - 1) / 2)).type != RoomType.Pit)
+						setRoom(row + j, col + k - (dSize - 1) / 2, RoomType.Slime);
 				}
 			}
 		}
 	}
 
 	private void setRoom(int row, int col, RoomType t){
-		roomGrid[row % getHeight()][col % getWidth()] = new Room(t, false);
+		roomGrid[normalizeRow(row)][normalizeCol(col)] = new Room(t, false);
 	}
 
 	private Room[][] roomGrid;

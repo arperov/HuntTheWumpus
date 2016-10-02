@@ -1,6 +1,6 @@
 package model;
 
-public enum Action {
+public enum GameAction {
 	Move,
 	Shoot;
 }
