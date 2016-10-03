@@ -23,7 +23,8 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 	public static void main(String[] args){
 		HuntTheWumpusGUI hw = new HuntTheWumpusGUI();
 		hw.setVisible(true);
-		JOptionPane.showMessageDialog(null, "Movement: \'h\',\'j\',\'k\',\'l\' or arrow keys\n Shooting: \'s\' + direction");
+		JOptionPane.showMessageDialog(null, "Movement: \'h\',\'j\',\'k\',\'l\' or arrow keys\n" +
+																				"Shooting: \'s\' + direction (same as movement)");
 	}
 
 	public HuntTheWumpusGUI(){
