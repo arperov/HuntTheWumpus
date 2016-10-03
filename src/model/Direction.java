@@ -1,3 +1,8 @@
+/*
+ * Artyom Perov
+ *
+ * Represents a direction in the game world
+ */
 package model;
 
 public enum Direction {

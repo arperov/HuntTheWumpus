@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Represents an entity
+ */
+
 package model;
 
 public abstract class Entity {
@@ -25,6 +31,11 @@ public abstract class Entity {
 	
 	public int getCol(){
 		return col;
+	}
+	
+	public void setPos(int row, int col){
+		this.row = map.normalizeRow(row);
+		this.col = map.normalizeCol(col);
 	}
 	
 	public abstract void update();

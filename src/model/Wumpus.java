@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Represents a Wumpus
+ */
+
 package model;
 
 public class Wumpus extends Entity {

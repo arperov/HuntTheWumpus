@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Textual view
+ */
+
 package view;
 
 import java.awt.BorderLayout;

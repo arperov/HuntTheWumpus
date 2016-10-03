@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Represents a room
+ */
+
 package model;
 
 public class Room{

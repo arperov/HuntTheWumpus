@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Represents a room type
+ */
+
 package model;
 
 public enum RoomType {

@@ -1,3 +1,11 @@
+/*
+ * Artyom Perov
+ *
+ * Driver for the Hunt the Wumpus game
+ *
+ * __WARNING__ : Only tested on a linux machine
+ */
+
 package controller;
 
 import java.awt.event.KeyEvent;
@@ -15,6 +23,7 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 	public static void main(String[] args){
 		HuntTheWumpusGUI hw = new HuntTheWumpusGUI();
 		hw.setVisible(true);
+		JOptionPane.showMessageDialog(null, "Movement: \'h\',\'j\',\'k\',\'l\' or arrow keys\n Shooting: \'s\' + direction");
 	}
 
 	public HuntTheWumpusGUI(){
@@ -78,14 +87,10 @@ public class HuntTheWumpusGUI extends JFrame implements KeyListener{
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-	}
+	public void keyReleased(KeyEvent arg0) {}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-
-	}
+	public void keyTyped(KeyEvent arg0) {}
 	
 	private Game g;
 	private TextualView tv;

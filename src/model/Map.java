@@ -1,3 +1,8 @@
+/*
+ * Artyom Perov
+ *
+ * Represents a map
+ */
 package model;
 
 import java.util.ArrayList;
@@ -7,27 +12,6 @@ public class Map {
 		roomGrid = new Room[height][width];
 		entities = new ArrayList<Entity>();
 		generate();
-	}
-	
-	Map(String[] grid){
-		entities = new ArrayList<Entity>();
-		roomGrid = new Room[grid.length][grid[0].length()];
-		for(int j = 0; j < roomGrid.length; ++j){
-			for(int k = 0; k < roomGrid[0].length; ++k){
-				if(grid[j].length() > k){
-					for(RoomType r : RoomType.values()){
-						if(r.getChar() == grid[j].charAt(k)){
-							roomGrid[j][k].type = r;
-							break;
-						}
-					}
-					if(roomGrid[j][k] == null)
-						roomGrid[j][k] = new Room(RoomType.Empty, false);
-				}else{
-					roomGrid[j][k] = new Room(RoomType.Empty, false);
-				}
-			}
-		}
 	}
 	
 	public int getHeight(){

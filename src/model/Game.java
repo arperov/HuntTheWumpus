@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * A game instance
+ */
+
 package model;
 
 import java.util.Observable;
@@ -8,20 +14,11 @@ public class Game extends Observable{
 		hunter = map.getHunter();
 		wumpus = map.getWumpus();
 		stat = Status.Running;
-		//REMOVEME
-		//map.setAllRooms(true);
-	}
-	
-	public Game(Map m){
-		map = m;
-		hunter = map.getHunter();
-		wumpus = map.getWumpus();
-		stat = Status.Running;
 	}
 
 	public void perform(GameAction act, Direction dir){
-		//FIXME
-		if(stat == Status.Running){
+		
+		if(act != null && dir != null & stat == Status.Running){
 			switch(act){
 				case Move:
 					hunter.move(dir);
@@ -72,7 +69,3 @@ public class Game extends Observable{
 	private static final int MAP_WIDTH = 15;
 }
 
-	// Handle input in the GUI class
-	// Don't forget to set room to visited when player visits it
-	// move/shoot do that then update entities then check if one of them is dead
-	// Get status (DEATH_PIT ...

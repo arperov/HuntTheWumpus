@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Represents an arrow
+ */
+
 package model;
 
 public class Arrow extends Entity{

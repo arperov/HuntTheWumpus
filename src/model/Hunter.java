@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Represents a hunter
+ */
+
 package model;
 
 public class Hunter extends Entity {

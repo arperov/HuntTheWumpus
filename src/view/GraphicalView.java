@@ -1,3 +1,9 @@
+/*
+ * Artyom Perov
+ *
+ * Graphical view
+ */
+
 package view;
 
 import java.awt.BorderLayout;
@@ -48,7 +54,6 @@ public class GraphicalView extends JPanel implements Observer {
 	public void paintComponent(Graphics g){
 		final int tSize = 33;
 		super.paintComponent(g);
-		//g.drawImage(wumpusImg, 10, 10, tSize, tSize, this);
 		Map m = game.getMap();
 		BufferedImage curImg = null;
 
